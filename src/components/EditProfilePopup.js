@@ -8,7 +8,7 @@ import thereIsErrors from "../utils/formError";
 
 function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
     const currentUser = useContext(CurrentUserContext);
-    console.log(currentUser.name);
+
     const editProfileForm = useFormik({
         enableReinitialize: true,
         initialValues: {

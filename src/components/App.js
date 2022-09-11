@@ -10,6 +10,9 @@ import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+
 function App() {
     const [cards, setCards] = useState([]);
     const [cardToRemove, setCardToRemove] = useState({});
@@ -164,18 +167,25 @@ function App() {
                     />
 
                     <Header />
-
-                    <Main
-                        onAddPlaceClick={openAddPlacePopup}
-                        onEditProfileClick={openEditProfile}
-                        onEditAvatarClick={openEditAvatarPicture}
-                        onCardClick={handleCardClick}
-                        onLike={handleCardLike}
-                        onDeleteClick={handleRemovePopup}
-                        onDeleteSubmit={handleSubmitRemove}
-                        cards={cards}
-                    />
-
+                    <BrowserRouter>
+                        <Switch>
+                            <ProtectedRoute path='/home' isLoggedIn={true}>
+                                <Main
+                                    onAddPlaceClick={openAddPlacePopup}
+                                    onEditProfileClick={openEditProfile}
+                                    onEditAvatarClick={openEditAvatarPicture}
+                                    onCardClick={handleCardClick}
+                                    onLike={handleCardLike}
+                                    onDeleteClick={handleRemovePopup}
+                                    onDeleteSubmit={handleSubmitRemove}
+                                    cards={cards}
+                                />
+                            </ProtectedRoute>
+                            <Route path={"/login"}>
+                                {/* Login component */}
+                            </Route>
+                        </Switch>
+                    </BrowserRouter>
                     <Footer />
                 </CardToRemoveContext.Provider>
             </CardContext.Provider>
