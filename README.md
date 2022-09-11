@@ -1,8 +1,40 @@
-Around the U.S. project on React, featuring authorization and registration.
+# Around the U.S - React version
 
-This repository will contain your own front-end project on React with added authorization and registration features.
-Start working with your previously built front end code from Sprint 11.
+## Overview
 
-All authorization, registration and token requests must go through to the server running on [https://register.nomoreparties.co](https://register.nomoreparties.co/).
+**Responsive web application for sharing images, liking and editing a profile.**
 
-Good luck!
+**Features**
+
+-   Edit profile: name, description & photo
+-   Upload an image via link with a caption
+-   Deleting an image
+-   Like an image
+
+**Technologies**
+
+-   React.js
+-   CSS3
+-   JavaScript
+
+**Implementations**
+
+-   React hooks (useState, useEffect, useContext)
+-   Dynamic "Global State" using React.createContext method
+-   React functional components
+-   ES6 Object-Oriented-Programming
+-   BEM Methodology inside a component
+-   Working with RESTful api
+-   Front end forms validation using Formik and Yup libraries
+
+**Run it in your machine**
+
+-   Update any needed dependency
+
+        npm install
+
+-   Start the "react-scripts start" script
+
+        npm run start
+
+### - - - [Show me the project](https://amitgit217.github.io/around-react/) - - -

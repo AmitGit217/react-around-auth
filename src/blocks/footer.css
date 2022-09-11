@@ -1,0 +1,32 @@
+.footer {
+  align-self: flex-start;
+  margin: 65px 0 60px 0;
+}
+.footer__copyright {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+  margin: 0;
+}
+@media screen and (max-width: 900px) {
+  .footer {
+    margin: 50px auto 36px auto;
+    width: 585px;
+  }
+  .footer__copyright {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .footer {
+    width: 282px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .footer__copyright {
+    font-size: 14px;
+  }
+}
