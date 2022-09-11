@@ -10,15 +10,17 @@ import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import RegisterPopup from "./RegisterPopup";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import success from "../images/successRegister.svg";
 import failRegister from "../images/registerFail.svg";
+import * as auth from "../utils/auth";
 
 function App() {
+    const history = useHistory();
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [cards, setCards] = useState([]);
     const [cardToRemove, setCardToRemove] = useState({});
@@ -27,7 +29,7 @@ function App() {
     const [isRemovePopupOpen, setRemovePopup] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
-    const [isRegisterPopupOpen, setRegisterPopup] = useState(true);
+    const [isRegisterPopupOpen, setRegisterPopup] = useState(false);
     const [selectedCard, setSelectedCard] = useState({
         name: "",
         link: "",
@@ -136,6 +138,25 @@ function App() {
             .finally(() => setSubmitText(""));
     }
 
+    const [registerImage, setImage] = useState("");
+    const [registerText, setText] = useState("");
+    function handleRegister(email, password) {
+        auth.registerUser(email, password)
+            .then((res) => {
+                if (res.data) {
+                    setImage(success);
+                    setRegisterPopup(true);
+                    setText("Success! You have now been registered.");
+                    history.push("/signin");
+                } else {
+                    setImage(failRegister);
+                    setRegisterPopup(true);
+                    setText("Oops, something went wrong! Please try again.");
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <CardContext.Provider value={cards}>
@@ -143,8 +164,8 @@ function App() {
                     <RegisterPopup
                         isOpen={isRegisterPopupOpen}
                         onClose={closeAllPopups}
-                        image={failRegister}
-                        text='loerm impsum asdfsdfsdfsdfssdfsdfsd'
+                        image={registerImage}
+                        text={registerText}
                     />
 
                     <ImagePopup
@@ -197,7 +218,7 @@ function App() {
                             />
                         </ProtectedRoute>
                         <Route path='/signup'>
-                            <Register />
+                            <Register registerUser={handleRegister} />
                         </Route>
                         <Route path='/signin'>
                             <Login />

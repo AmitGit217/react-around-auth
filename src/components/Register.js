@@ -1,20 +1,39 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import auth from "../utils/auth";
 
-function Register() {
+function Register({ registerUser }) {
+    const register = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        onSubmit: (values, { resetForm }) => {
+            registerUser({ email: values.email, password: values.password });
+            // resetForm(values);
+        },
+    });
+
     return (
-        <form className='register'>
+        <form className='register' onSubmit={register.handleSubmit}>
             <h1 className='register__title'>Sign up</h1>
             <input
+                onChange={register.handleChange}
+                value={register.values.email}
                 name='email'
                 className='register__input'
                 type={"email"}
-                placeholder='Email'></input>
+                placeholder='Email'
+            />
             <input
+                onChange={register.handleChange}
+                value={register.values.password}
                 name='password'
                 className='register__input'
                 type={"password"}
-                placeholder='Password'></input>
+                placeholder='Password'
+            />
 
             <button type='submit' className='register__submit'>
                 Sign up
