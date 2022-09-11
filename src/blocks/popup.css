@@ -20,7 +20,7 @@
     flex-direction: column;
     align-items: center;
 }
-.popup__form {
+.popup__form-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,14 @@
     background: #ffffff;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
+    padding: 5%;
     margin: 0;
+}
+.popup__form {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .popup__wrapper_type_confirm {
     position: relative;
@@ -71,7 +78,7 @@
     font-family: "Inter", sans-serif;
     width: 330px;
     max-height: 23px;
-    margin: 34px 64px 54px 36px;
+    /* margin: 34px 64px 54px 36px; */
     font-style: normal;
     font-weight: 900;
     font-size: 24px;
@@ -82,14 +89,16 @@
     position: relative;
     border: none;
     width: 358px;
-    margin: 0 0 0 36px;
     font-family: "Inter", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     color: #000000;
+    padding: 0;
     padding-top: 6.5px;
     padding-bottom: 6.5px;
+    outline: none;
+
     text-indent: 5px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
@@ -107,7 +116,7 @@
 
 .popup__submit {
     align-self: center;
-    margin-bottom: 30px;
+    margin-top: 5%;
     width: 358px;
     height: 50.15px;
     background: #000000;
@@ -146,7 +155,7 @@
     margin-bottom: 13px;
 }
 .popup__input-error {
-    margin: 5px 0 0 36px;
+    margin: 5px 0 0 0;
     font-family: "Inter";
     font-style: normal;
     font-weight: 400;
@@ -163,6 +172,9 @@
     .popup {
         width: 100%;
     }
+    .popup__form-wrapper {
+        padding: 2%;
+    }
     .popup + .popup__wrapper {
         width: 282px;
         margin-top: 100px;
@@ -178,16 +190,15 @@
         width: 282px;
         height: 322px;
         position: relative;
+        row-gap: 20px;
     }
     .popup__title {
-        margin: 25px 22px 75px 22px;
         font-size: 18px;
         width: 238px;
         max-height: 22px;
     }
     .popup__input {
         width: 238px;
-        margin: 0 0 30px 22px;
         max-height: 14px;
         padding-bottom: 9px;
     }
@@ -207,8 +218,5 @@
         font-size: 14px;
         padding: 0;
         bottom: 30px;
-    }
-    .popup__input-error {
-        margin: 5px 0 0 22px;
     }
 }

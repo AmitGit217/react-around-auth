@@ -19,10 +19,12 @@ export default function PopupWithForm({
                     className='popup__close-button'
                     type='button'
                     onClick={onClose}></button>
-                <form className='popup__form' onSubmit={onSubmit}>
-                    <h2 className='popup__title'>{title}</h2>
-                    {children}
-                </form>
+                <div className='popup__form-wrapper'>
+                    <form className='popup__form' onSubmit={onSubmit}>
+                        <h2 className='popup__title'>{title}</h2>
+                        {children}
+                    </form>
+                </div>
             </div>
         </div>
     );

@@ -11,9 +11,12 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
 import { Redirect, Route, Switch } from "react-router-dom";
+import RegisterPopup from "./RegisterPopup";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import success from "../images/successRegister.svg";
+import failRegister from "../images/registerFail.svg";
 
 function App() {
     const [isLoggedIn, setLoggedIn] = useState(false);
@@ -24,6 +27,7 @@ function App() {
     const [isRemovePopupOpen, setRemovePopup] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+    const [isRegisterPopupOpen, setRegisterPopup] = useState(true);
     const [selectedCard, setSelectedCard] = useState({
         name: "",
         link: "",
@@ -36,6 +40,7 @@ function App() {
         setAddPlacePopupOpen(false);
         setIsImagePopupOpen(false);
         setRemovePopup(false);
+        setRegisterPopup(false);
     }
     function openEditProfile() {
         setEditProfilePopupOpen(true);
@@ -135,6 +140,13 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <CardContext.Provider value={cards}>
                 <CardToRemoveContext.Provider value={cardToRemove}>
+                    <RegisterPopup
+                        isOpen={isRegisterPopupOpen}
+                        onClose={closeAllPopups}
+                        image={failRegister}
+                        text='loerm impsum asdfsdfsdfsdfssdfsdfsd'
+                    />
+
                     <ImagePopup
                         card={selectedCard}
                         onClose={closeAllPopups}
@@ -190,13 +202,13 @@ function App() {
                         <Route path='/signin'>
                             <Login />
                         </Route>
-                        <Route>
-                            {
-                                <Redirect
-                                    to={`${isLoggedIn ? "/" : "/signup"}`}
-                                />
+
+                        <Route
+                            path={"/"}
+                            component={
+                                <Redirect to={isLoggedIn ? "/" : "/signup"} />
                             }
-                        </Route>
+                        />
                     </Switch>
 
                     <Footer />

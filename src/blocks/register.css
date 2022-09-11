@@ -72,3 +72,14 @@
 .register__link_direction:hover {
     opacity: 0.6;
 }
+
+.register__image {
+    width: 120px;
+    height: 120px;
+    align-self: center;
+}
+
+.register__popup-title {
+    text-align: center;
+    margin-left: 0;
+}
