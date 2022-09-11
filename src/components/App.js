@@ -10,10 +10,13 @@ import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const [cards, setCards] = useState([]);
     const [cardToRemove, setCardToRemove] = useState({});
     const [currentUser, setCurrentUser] = useState({});
@@ -167,25 +170,35 @@ function App() {
                     />
 
                     <Header />
-                    <BrowserRouter>
-                        <Switch>
-                            <ProtectedRoute path='/home' isLoggedIn={true}>
-                                <Main
-                                    onAddPlaceClick={openAddPlacePopup}
-                                    onEditProfileClick={openEditProfile}
-                                    onEditAvatarClick={openEditAvatarPicture}
-                                    onCardClick={handleCardClick}
-                                    onLike={handleCardLike}
-                                    onDeleteClick={handleRemovePopup}
-                                    onDeleteSubmit={handleSubmitRemove}
-                                    cards={cards}
+
+                    <Switch>
+                        <ProtectedRoute exact path='/' isLoggedIn={isLoggedIn}>
+                            <Main
+                                onAddPlaceClick={openAddPlacePopup}
+                                onEditProfileClick={openEditProfile}
+                                onEditAvatarClick={openEditAvatarPicture}
+                                onCardClick={handleCardClick}
+                                onLike={handleCardLike}
+                                onDeleteClick={handleRemovePopup}
+                                onDeleteSubmit={handleSubmitRemove}
+                                cards={cards}
+                            />
+                        </ProtectedRoute>
+                        <Route path='/signup'>
+                            <Register />
+                        </Route>
+                        <Route path='/signin'>
+                            <Login />
+                        </Route>
+                        <Route>
+                            {
+                                <Redirect
+                                    to={`${isLoggedIn ? "/" : "/signup"}`}
                                 />
-                            </ProtectedRoute>
-                            <Route path={"/login"}>
-                                {/* Login component */}
-                            </Route>
-                        </Switch>
-                    </BrowserRouter>
+                            }
+                        </Route>
+                    </Switch>
+
                     <Footer />
                 </CardToRemoveContext.Provider>
             </CardContext.Provider>

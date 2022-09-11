@@ -1,0 +1,74 @@
+.register {
+    font-family: "Inter";
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    row-gap: 57px;
+}
+
+.register__title {
+    margin-top: 60px;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.register__input {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    border-bottom: 2px solid #cccccc;
+    width: 95%;
+    max-width: 358px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 0.5%;
+    outline: none;
+}
+.register__input::placeholder {
+    color: #cccccc;
+    font-weight: 400;
+}
+
+.register__submit {
+    background: #ffffff;
+    border-radius: 2px;
+    margin-top: 150px;
+    width: 95%;
+    max-width: 358px;
+    height: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.register__submit:hover {
+    opacity: 0.85;
+}
+
+.register__link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #ffffff;
+}
+.register__link_direction {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.register__link_direction:hover {
+    opacity: 0.6;
+}
