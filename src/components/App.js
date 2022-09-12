@@ -10,7 +10,13 @@ import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import {
+    Redirect,
+    Route,
+    Switch,
+    useHistory,
+    useLocation,
+} from "react-router-dom";
 import RegisterPopup from "./RegisterPopup";
 import Register from "./Register";
 import Login from "./Login";
@@ -20,6 +26,7 @@ import failRegister from "../images/registerFail.svg";
 import * as auth from "../utils/auth";
 
 function App() {
+    const location = useLocation();
     const history = useHistory();
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [cards, setCards] = useState([]);
@@ -158,11 +165,12 @@ function App() {
             })
             .catch((err) => console.log(err));
     }
-
+    const [userEmail, setEmail] = useState("");
     function handleLogin(email, password) {
         auth.loginUser(email, password)
             .then((res) => {
                 if (res.token) {
+                    setEmail(email.email);
                     setLoggedIn(true);
                     history.push("/");
                 }
@@ -176,13 +184,46 @@ function App() {
             auth.checkToken(token)
                 .then((res) => {
                     if (res) {
+                        setEmail(res.data.email);
                         setLoggedIn(true);
                         history.push("/");
                     }
                 })
                 .catch((err) => console.log(err));
         }
-    });
+    }, [history]);
+    const [metaText, setMetaText] = useState("");
+    const [redirection, setRedirection] = useState("");
+    const inApp = location.pathname === "/";
+    const inRegister = location.pathname === "/signup";
+    const inLogin = location.pathname === "/signin";
+    useEffect(() => {
+        if (inApp) {
+            setMetaText("Log out");
+        } else if (inLogin) {
+            setMetaText("Sign up");
+        } else if (inRegister) {
+            setMetaText("Sign in");
+        }
+    }, [inApp, inLogin, inRegister, location.pathname]);
+
+    useEffect(() => {
+        if (inApp) {
+            setRedirection("/signin");
+        } else if (inLogin) {
+            setRedirection("/signup");
+        } else if (inRegister) {
+            setRedirection("/singin");
+        }
+    }, [inApp, inLogin, inRegister, location.pathname]);
+    function handleRedirect() {
+        if (inApp) {
+            localStorage.removeItem("token");
+            setEmail("");
+            history.push("/signin");
+            setLoggedIn(false);
+        }
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -229,7 +270,13 @@ function App() {
                         submitText={submitText}
                     />
 
-                    <Header />
+                    <Header
+                        routeText={metaText}
+                        route={redirection}
+                        logout={handleRedirect}
+                        isLoggedIn={isLoggedIn}
+                        userEmail={userEmail}
+                    />
 
                     <Switch>
                         <ProtectedRoute exact path='/' isLoggedIn={isLoggedIn}>
@@ -255,7 +302,7 @@ function App() {
                             {isLoggedIn ? (
                                 <Redirect to='/' />
                             ) : (
-                                <Redirect to='/signup' />
+                                <Redirect to='/signin' />
                             )}
                         </Route>
                     </Switch>

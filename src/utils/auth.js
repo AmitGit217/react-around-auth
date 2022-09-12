@@ -29,7 +29,6 @@ export const loginUser = (email, password) => {
         .then((data) => {
             if (data.token) {
                 localStorage.setItem("token", data.token);
-                console.log(data);
                 return data;
             } else {
                 return;
@@ -47,5 +46,8 @@ export const checkToken = (jwt) => {
         },
     })
         .then((res) => res.json())
-        .then((data) => data);
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => console.log(err));
 };

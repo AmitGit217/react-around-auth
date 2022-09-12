@@ -1,40 +1,71 @@
 .header {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .header__vector {
-  width: 173px;
-  height: 33px;
-  margin: 45px 0 41px 0;
+    width: 173px;
+    height: 33px;
+    margin: 45px 0 41px 0;
 }
 .header__line {
-  opacity: 0.7;
-  flex-grow: 1;
-  margin: 0;
-  height: 0;
-  border-bottom: 1px solid #545454;
+    opacity: 0.7;
+    flex-grow: 1;
+    margin: 0;
+    height: 0;
+    border-bottom: 1px solid #545454;
+}
+
+.header__top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__info {
+    display: flex;
+    align-items: center;
+    column-gap: 24px;
+}
+.header__route-link {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: right;
+    color: #a9a9a9;
+    text-decoration: none;
+    padding-right: 15px;
+}
+
+.header__user {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: right;
+    color: #ffffff;
+    margin: 0;
 }
 
 @media screen and (max-width: 900px) {
-  .header__vector {
-    margin-left: 1%;
-    margin-bottom: 15px;
-    width: 350px;
-    height: 45px;
-  }
+    .header__vector {
+        margin-left: 1%;
+        margin-bottom: 15px;
+        width: 350px;
+        height: 45px;
+    }
 }
 @media screen and (min-width: 426px) and (max-width: 500px) {
-  .header__vector {
-    align-self: center;
-    margin-bottom: 25px;
-  }
+    .header__vector {
+        align-self: center;
+        margin-bottom: 25px;
+    }
 }
 
 @media screen and (max-width: 425px) {
-  .header__vector {
-    width: 126px;
-    height: 24px;
-    margin: 28px 0 32px 27px;
-  }
+    .header__vector {
+        width: 126px;
+        height: 24px;
+        margin: 28px 0 32px 27px;
+    }
 }
