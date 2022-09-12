@@ -1,13 +1,57 @@
 import "../blocks/header.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../images/Vector.svg";
 import { Link } from "react-router-dom";
-export default function Header({ route, routeText, logout, userEmail }) {
+
+export default function Header({
+    route,
+    routeText,
+    logout,
+    userEmail,
+    isLoggedIn,
+}) {
+    const [menu, setMenu] = useState("");
+    const [layOut, setLayout] = useState("null");
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setMenu("");
+            setLayout("");
+        }
+    }, [isLoggedIn]);
+    function showMenu() {
+        setMenu("header__show");
+        setLayout("header__top_mobile");
+    }
+    function hideMenu() {
+        setMenu("");
+        setLayout("");
+    }
     return (
         <header className='header'>
-            <div className='header__top'>
-                <img className='header__vector' src={logo} alt='logo' />
-                <div className='header__info'>
+            <div className={`header__top ${isLoggedIn && layOut}`}>
+                <div className='header_flex'>
+                    <img className='header__vector' src={logo} alt='logo' />
+                    {menu.length && isLoggedIn ? (
+                        <button
+                            onClick={hideMenu}
+                            type='button'
+                            className='header__close-button'
+                        />
+                    ) : null}
+                </div>
+                {!menu.length && isLoggedIn ? (
+                    <button
+                        type='button'
+                        onClick={showMenu}
+                        className={`${isLoggedIn ? "header__burger" : ""} 
+                        
+                    `}
+                    />
+                ) : null}
+                <div
+                    className={`header__info  ${
+                        menu.length && isLoggedIn ? `header__info_show` : null
+                    }`}>
                     <p className='header__user'>{userEmail}</p>
                     <Link
                         to={route}
