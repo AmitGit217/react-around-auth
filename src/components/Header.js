@@ -48,18 +48,36 @@ export default function Header({
                     `}
                     />
                 ) : null}
-                <div
-                    className={`header__info  ${
-                        menu.length && isLoggedIn ? `header__info_show` : null
-                    }`}>
-                    <p className='header__user'>{userEmail}</p>
-                    <Link
-                        to={route}
-                        className='header__route-link'
-                        onClick={logout}>
-                        {routeText}
-                    </Link>
-                </div>
+                {isLoggedIn ? (
+                    <div
+                        className={`header__info  ${
+                            menu.length && `header__info_show`
+                        }`}>
+                        <p className='header__user'>{userEmail}</p>
+                        <Link
+                            to={route}
+                            className='header__route-link'
+                            onClick={logout}>
+                            {routeText}
+                        </Link>
+                    </div>
+                ) : (
+                    <>
+                        <div
+                            className={`header__info  ${
+                                menu.length && `header__info_show`
+                            }`}>
+                            <p className='header__user'>{userEmail}</p>
+                        </div>
+                        <Link
+                            to={route}
+                            className='header__route-link'
+                            style={{ paddingRight: "10px" }}
+                            onClick={logout}>
+                            {routeText}
+                        </Link>
+                    </>
+                )}
             </div>
 
             <span className='header__line'></span>
