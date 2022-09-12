@@ -1,7 +1,6 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import auth from "../utils/auth";
 
 function Register({ registerUser }) {
     const register = useFormik({
@@ -9,9 +8,11 @@ function Register({ registerUser }) {
             email: "",
             password: "",
         },
-        onSubmit: (values, { resetForm }) => {
-            registerUser({ email: values.email, password: values.password });
-            // resetForm(values);
+        onSubmit: (values) => {
+            registerUser({
+                email: values.email,
+                password: values.password,
+            });
         },
     });
 
@@ -20,7 +21,7 @@ function Register({ registerUser }) {
             <h1 className='register__title'>Sign up</h1>
             <input
                 onChange={register.handleChange}
-                value={register.values.email}
+                value={register.values.email || ""}
                 name='email'
                 className='register__input'
                 type={"email"}
@@ -28,7 +29,7 @@ function Register({ registerUser }) {
             />
             <input
                 onChange={register.handleChange}
-                value={register.values.password}
+                value={register.values.password || ""}
                 name='password'
                 className='register__input'
                 type={"password"}

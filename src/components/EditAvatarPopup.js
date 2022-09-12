@@ -31,7 +31,7 @@ function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, submitText }) {
             <label className='popup__field'>
                 <input
                     onChange={editAvatarForm.handleChange}
-                    value={editAvatarForm.values.avatar}
+                    value={editAvatarForm.values.avatar || ""}
                     className='popup__input'
                     name='avatar'
                     placeholder='Image Link'

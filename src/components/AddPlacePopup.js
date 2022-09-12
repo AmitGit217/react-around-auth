@@ -43,7 +43,7 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
             <label className='popup__field'>
                 <input
                     onChange={addCardForm.handleChange}
-                    value={addCardForm.values.name}
+                    value={addCardForm.values.name || ""}
                     onBlur={addCardForm.handleBlur}
                     className='popup__input'
                     type='text'
@@ -59,7 +59,7 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
             <label className='popup__field'>
                 <input
                     onChange={addCardForm.handleChange}
-                    value={addCardForm.values.link}
+                    value={addCardForm.values.link || ""}
                     onBlur={addCardForm.handleBlur}
                     className='popup__input'
                     type='url'

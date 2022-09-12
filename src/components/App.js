@@ -148,14 +148,41 @@ function App() {
                     setRegisterPopup(true);
                     setText("Success! You have now been registered.");
                     history.push("/signin");
+                    console.log(res);
                 } else {
                     setImage(failRegister);
                     setRegisterPopup(true);
                     setText("Oops, something went wrong! Please try again.");
+                    console.log(res);
                 }
             })
             .catch((err) => console.log(err));
     }
+
+    function handleLogin(email, password) {
+        auth.loginUser(email, password)
+            .then((res) => {
+                if (res.token) {
+                    setLoggedIn(true);
+                    history.push("/");
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            const token = localStorage.getItem("token");
+            auth.checkToken(token)
+                .then((res) => {
+                    if (res) {
+                        setLoggedIn(true);
+                        history.push("/");
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    });
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -221,15 +248,16 @@ function App() {
                             <Register registerUser={handleRegister} />
                         </Route>
                         <Route path='/signin'>
-                            <Login />
+                            <Login loginUser={handleLogin} />
                         </Route>
 
-                        <Route
-                            path={"/"}
-                            component={
-                                <Redirect to={isLoggedIn ? "/" : "/signup"} />
-                            }
-                        />
+                        <Route>
+                            {isLoggedIn ? (
+                                <Redirect to='/' />
+                            ) : (
+                                <Redirect to='/signup' />
+                            )}
+                        </Route>
                     </Switch>
 
                     <Footer />

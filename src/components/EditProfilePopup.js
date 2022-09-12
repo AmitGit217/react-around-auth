@@ -46,7 +46,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                     name='name'
                     type='text'
                     placeholder='Full Name'
-                    value={editProfileForm.values.name}
+                    value={editProfileForm.values.name || ""}
                     onChange={editProfileForm.handleChange}
                 />
                 {editProfileForm.errors.name && (
@@ -61,7 +61,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                     name='about'
                     type='text'
                     placeholder='Description'
-                    value={editProfileForm.values.about}
+                    value={editProfileForm.values.about || ""}
                     onChange={editProfileForm.handleChange}
                 />
                 {editProfileForm.errors.about && (
