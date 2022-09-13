@@ -23,7 +23,7 @@ import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import success from "../images/successRegister.svg";
 import failRegister from "../images/registerFail.svg";
-import * as auth from "../utils/auth";
+import auth from "../utils/auth";
 
 function App() {
     const location = useLocation();
@@ -43,6 +43,15 @@ function App() {
     });
     const [submitText, setSubmitText] = useState("");
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+    const [metaText, setMetaText] = useState("");
+    const [redirection, setRedirection] = useState("");
+    const inApp = location.pathname === "/";
+    const inRegister = location.pathname === "/signup";
+    const inLogin = location.pathname === "/signin";
+    const [userEmail, setEmail] = useState("");
+    const [registerImage, setImage] = useState("");
+    const [registerText, setText] = useState("");
+
     function closeAllPopups() {
         setEditAvatarPopupOpen(false);
         setEditProfilePopupOpen(false);
@@ -78,8 +87,8 @@ function App() {
         api.setUserInfo({ name, about })
             .then((res) => {
                 setCurrentUser(res);
+                closeAllPopups();
             })
-            .then(closeAllPopups())
             .catch((err) => console.log(err))
             .finally(() => setSubmitText(""));
     }
@@ -88,10 +97,8 @@ function App() {
         api.updateAvatarImage({ avatar })
             .then((res) => {
                 setCurrentUser(res);
+                closeAllPopups();
             })
-            .then(console.log())
-
-            .then(closeAllPopups())
             .catch((err) => console.log(err))
             .finally(() => setSubmitText(""));
     }
@@ -126,9 +133,9 @@ function App() {
                 setCards((cards) =>
                     cards.filter((cardToStay) => cardToStay._id !== card._id)
                 );
+                closeAllPopups();
             })
 
-            .then(closeAllPopups())
             .catch((err) => console.log(err))
             .finally(() => setSubmitText(""));
     }
@@ -138,15 +145,12 @@ function App() {
         api.addCard({ name, link })
             .then((res) => {
                 setCards([res, ...cards]);
+                closeAllPopups();
             })
-
-            .then(closeAllPopups())
             .catch((err) => console.log(err))
             .finally(() => setSubmitText(""));
     }
 
-    const [registerImage, setImage] = useState("");
-    const [registerText, setText] = useState("");
     function handleRegister(email, password) {
         auth.registerUser(email, password)
             .then((res) => {
@@ -155,24 +159,27 @@ function App() {
                     setRegisterPopup(true);
                     setText("Success! You have now been registered.");
                     history.push("/signin");
-                    console.log(res);
                 } else {
                     setImage(failRegister);
                     setRegisterPopup(true);
                     setText("Oops, something went wrong! Please try again.");
-                    console.log(res);
                 }
             })
             .catch((err) => console.log(err));
     }
-    const [userEmail, setEmail] = useState("");
+
     function handleLogin(email, password) {
         auth.loginUser(email, password)
             .then((res) => {
                 if (res.token) {
+                    localStorage.setItem("token", res.token);
                     setEmail(email.email);
                     setLoggedIn(true);
                     history.push("/");
+                } else {
+                    setImage(failRegister);
+                    setRegisterPopup(true);
+                    setText("Oops, something went wrong! Please try again.");
                 }
             })
             .catch((err) => console.log(err));
@@ -192,17 +199,15 @@ function App() {
                 .catch((err) => console.log(err));
         }
     }, [history]);
-    const [metaText, setMetaText] = useState("");
-    const [redirection, setRedirection] = useState("");
-    const inApp = location.pathname === "/";
-    const inRegister = location.pathname === "/signup";
-    const inLogin = location.pathname === "/signin";
+
     useEffect(() => {
         if (inApp) {
             setMetaText("Log out");
-        } else if (inLogin) {
+        }
+        if (inLogin) {
             setMetaText("Sign up");
-        } else if (inRegister) {
+        }
+        if (inRegister) {
             setMetaText("Sign in");
         }
     }, [inApp, inLogin, inRegister, location.pathname]);
@@ -216,6 +221,7 @@ function App() {
             setRedirection("/singin");
         }
     }, [inApp, inLogin, inRegister, location.pathname]);
+
     function handleRedirect() {
         if (inApp) {
             localStorage.removeItem("token");

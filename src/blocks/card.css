@@ -1,91 +1,93 @@
 .card {
-  width: 282px;
-  max-height: 361px;
-  border-radius: 10px;
-  background-color: #ffffff;
-  position: relative;
+    width: 282px;
+    max-height: 361px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    position: relative;
 }
 .card__image {
-  width: 100%;
-  height: 282px;
-  border-radius: 10px 10px 0 0;
-  cursor: pointer;
+    width: 100%;
+    height: 282px;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    object-fit: cover;
 }
 .card__caption {
-  margin: 25px 0 0 21px;
-  max-width: 220px;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 900;
-  font-size: 24px;
-  color: #000000;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+    margin: 25px 0 0 21px;
+    max-width: 220px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    color: #000000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .card__like {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .card__like-counter {
-  margin: 2px 0 0 6px;
+    margin: 2px 0 0 6px;
+    font-family: "Inter";
 }
 .card__like-button {
-  background: none;
-  height: 19px;
-  width: 21px;
-  margin-right: 18px;
-  margin-top: 30px;
-  padding: 0;
-  border: none;
-  background-image: url(../images/likeButton.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  transition: 0.2s;
+    background: none;
+    height: 19px;
+    width: 21px;
+    margin-right: 18px;
+    margin-top: 30px;
+    padding: 0;
+    border: none;
+    background-image: url(../images/likeButton.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: 0.2s;
 }
 .card__like-button:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 .card__like-button_active {
-  background-image: url(../images/likeButton_active.svg);
+    background-image: url(../images/likeButton_active.svg);
 }
 .card__social-brand {
-  display: flex;
-  background: #ffffff;
-  border-radius: 0 0 10px 10px;
-  max-height: 79px;
-  justify-content: space-between;
-  width: 100%;
-  padding-bottom: 9%;
+    display: flex;
+    background: #ffffff;
+    border-radius: 0 0 10px 10px;
+    max-height: 79px;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 9%;
 }
 .card__removeButton {
-  position: absolute;
-  top: 18px;
-  right: 15px;
-  width: 18px;
-  height: 19.3px;
-  background: none;
-  background-image: url(../images/deleteButton.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    width: 18px;
+    height: 19.3px;
+    background: none;
+    background-image: url(../images/deleteButton.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
 }
 .card__removeButton_hidden {
-  opacity: 0;
-  visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
 }
 .card__removeButton:hover {
-  opacity: 0.6;
+    opacity: 0.6;
 }
 
 @media screen and (max-width: 768px) {
-  .card__like-button_active:hover {
-    /* There is no need for hover state on mobile devices while active */
-    opacity: 1;
-  }
+    .card__like-button_active:hover {
+        /* There is no need for hover state on mobile devices while active */
+        opacity: 1;
+    }
 }

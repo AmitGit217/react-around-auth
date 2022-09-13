@@ -1,53 +1,50 @@
-const BASE_URL = "https://register.nomoreparties.co";
+class Auth {
+    constructor({ url, headers }) {
+        this.baseUrl = url;
+        this.headers = headers;
+    }
 
-export const registerUser = async (email, password) => {
-    try {
-        const response = await fetch(`${BASE_URL}/signup`, {
+    _customFetch(url, headers) {
+        return fetch(url, headers).then((res) => {
+            if (res) {
+                return res.json();
+            }
+            return Promise.reject(`Error: ${res.status}`);
+        });
+    }
+
+    registerUser(email, password) {
+        return this._customFetch(`${this.baseUrl}/signup`, {
+            headers: this.headers,
+            method: "POST",
+            body: JSON.stringify(email, password),
+        });
+    }
+
+    loginUser(email, password) {
+        return this._customFetch(`${this.baseUrl}/signin`, {
             method: "POST",
             headers: {
+                Accept: "application/json",
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(email, password),
         });
-        const res = await response.json();
-        return res;
-    } catch (err) {
-        return console.log(err);
     }
-};
 
-export const loginUser = (email, password) => {
-    return fetch(`${BASE_URL}/signin`, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(email, password),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                return data;
-            } else {
-                return;
-            }
-        })
-        .catch((err) => console.log(err));
-};
+    checkToken(jwt) {
+        return this._customFetch(`${this.baseUrl}/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+    }
+}
 
-export const checkToken = (jwt) => {
-    return fetch(`${BASE_URL}/users/me`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
-        },
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => console.log(err));
-};
+const auth = new Auth({
+    url: "https://register.nomoreparties.co",
+    headers: { "Content-Type": "application/json" },
+});
+
+export default auth;

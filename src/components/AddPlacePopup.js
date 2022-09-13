@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -24,14 +24,18 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
                 .max(30, MAX_LENGTH),
             link: Yup.string().url(MUST_BE_VALID_URL).required(REQUIRED),
         }),
-        onSubmit: (values, { resetForm }) => {
+        onSubmit: (values) => {
             onCardsUpdate({
                 name: values.name,
                 link: values.link,
             });
-            resetForm({ values: "" });
         },
     });
+    const { values } = addCardForm;
+    useEffect(() => {
+        values.link = "";
+        values.name = "";
+    }, [isOpen]);
 
     return (
         <PopupWithForm
