@@ -215,9 +215,11 @@ function App() {
     useEffect(() => {
         if (inApp) {
             setRedirection("/signin");
-        } else if (inLogin) {
+        }
+        if (inLogin) {
             setRedirection("/signup");
-        } else if (inRegister) {
+        }
+        if (inRegister) {
             setRedirection("/singin");
         }
     }, [inApp, inLogin, inRegister, location.pathname]);
