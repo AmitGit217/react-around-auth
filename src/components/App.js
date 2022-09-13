@@ -17,7 +17,7 @@ import {
     useHistory,
     useLocation,
 } from "react-router-dom";
-import RegisterPopup from "./RegisterPopup";
+import InfoToolTip from "./InfoToolTip";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -28,6 +28,7 @@ import auth from "../utils/auth";
 function App() {
     const location = useLocation();
     const history = useHistory();
+
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [cards, setCards] = useState([]);
     const [cardToRemove, setCardToRemove] = useState({});
@@ -44,13 +45,14 @@ function App() {
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [metaText, setMetaText] = useState("");
     const [redirection, setRedirection] = useState("");
-    const inApp = location.pathname === "/";
-    const inRegister = location.pathname === "/signup";
-    const inLogin = location.pathname === "/signin";
     const [userEmail, setEmail] = useState("");
     const [registerImage, setImage] = useState("");
     const [registerText, setText] = useState("");
     const [isLoading, setLoading] = useState(false);
+
+    const inApp = location.pathname === "/";
+    const inRegister = location.pathname === "/signup";
+    const inLogin = location.pathname === "/signin";
 
     function closeAllPopups() {
         setEditAvatarPopupOpen(false);
@@ -74,13 +76,6 @@ function App() {
         setIsImagePopupOpen(true);
         setSelectedCard({ name: card.name, link: card.link });
     }
-    useEffect(() => {
-        api.getUserInfo()
-            .then((res) => {
-                setCurrentUser(res);
-            })
-            .catch((err) => console.log(err));
-    }, []);
 
     function handleUserUpdate({ name, about }) {
         setLoading(true);
@@ -102,13 +97,7 @@ function App() {
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
     }
-    useEffect(() => {
-        api.getInitialCards()
-            .then((res) => {
-                setCards(res);
-            })
-            .catch((err) => console.log(err));
-    }, []);
+
     function handleCardLike(card) {
         const isLiked = card.likes.some((user) => user._id === currentUser._id);
         api.changeLikeCardStatus(card._id, !isLiked)
@@ -126,12 +115,12 @@ function App() {
         setRemovePopup(true);
         setCardToRemove(card);
     }
-    function handleSubmitRemove(card) {
+    function handleSubmitRemove(cardToRemove) {
         setLoading(true);
-        api.deleteCard(card._id)
+        api.deleteCard(cardToRemove._id)
             .then((res) => {
                 setCards((cards) =>
-                    cards.filter((cardToStay) => cardToStay._id !== card._id)
+                    cards.filter((card) => card._id !== cardToRemove._id)
                 );
                 closeAllPopups();
             })
@@ -185,8 +174,34 @@ function App() {
             .catch((err) => console.log(err));
     }
 
+    function handleRedirect() {
+        if (inApp) {
+            localStorage.removeItem("token");
+            setEmail("");
+            history.push("/signin");
+            setLoggedIn(false);
+        }
+    }
+
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        api.getInitialCards()
+            .then((res) => {
+                setCards(res);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        api.getUserInfo()
+            .then((res) => {
+                setCurrentUser(res);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
             const token = localStorage.getItem("token");
             auth.checkToken(token)
                 .then((res) => {
@@ -203,41 +218,23 @@ function App() {
     useEffect(() => {
         if (inApp) {
             setMetaText("Log out");
-        }
-        if (inLogin) {
-            setMetaText("Sign up");
-        }
-        if (inRegister) {
-            setMetaText("Sign in");
-        }
-    }, [inApp, inLogin, inRegister, location.pathname]);
-
-    useEffect(() => {
-        if (inApp) {
             setRedirection("/signin");
         }
         if (inLogin) {
+            setMetaText("Sign up");
             setRedirection("/signup");
         }
         if (inRegister) {
+            setMetaText("Sign in");
             setRedirection("/singin");
         }
     }, [inApp, inLogin, inRegister, location.pathname]);
-
-    function handleRedirect() {
-        if (inApp) {
-            localStorage.removeItem("token");
-            setEmail("");
-            history.push("/signin");
-            setLoggedIn(false);
-        }
-    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <CardContext.Provider value={cards}>
                 <CardToRemoveContext.Provider value={cardToRemove}>
-                    <RegisterPopup
+                    <InfoToolTip
                         isOpen={isRegisterPopupOpen}
                         onClose={closeAllPopups}
                         image={registerImage}
@@ -254,28 +251,28 @@ function App() {
                         onClose={closeAllPopups}
                         onSubmitHandler={handleSubmitRemove}
                         isOpen={isRemovePopupOpen}
-                        isLoading={isLoading}
+                        submitText={isLoading ? "Deleting..." : "Yes"}
                     />
 
                     <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
                         onAvatarUpdate={handleAvatarUpdate}
-                        isLoading={isLoading}
+                        submitText={isLoading ? "Saving..." : "Save"}
                     />
 
                     <EditProfilePopup
                         isOpen={isEditProfilePopupOpen}
                         onClose={closeAllPopups}
                         onUserUpdate={handleUserUpdate}
-                        isLoading={isLoading}
+                        submitText={isLoading ? "Saving..." : "Save"}
                     />
 
                     <AddPlacePopup
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
                         onCardsUpdate={handleCardsUpdate}
-                        isLoading={isLoading}
+                        submitText={isLoading ? "Creating..." : "Create"}
                     />
 
                     <Header

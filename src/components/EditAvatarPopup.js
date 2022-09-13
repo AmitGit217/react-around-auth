@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { REQUIRED, MUST_BE_VALID_URL } from "../lib/consts";
 import thereIsErrors from "../utils/formError";
 
-function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, isLoading }) {
+function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, submitText }) {
     const editAvatarForm = useFormik({
         initialValues: {
             avatar: "",
@@ -13,13 +13,17 @@ function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, isLoading }) {
         validationSchema: Yup.object({
             avatar: Yup.string().url(MUST_BE_VALID_URL).required(REQUIRED),
         }),
-        onSubmit: (values, { resetForm }) => {
+        onSubmit: (values) => {
             onAvatarUpdate({
                 avatar: values.avatar,
             });
-            resetForm({ values: "" });
         },
     });
+    const { values } = editAvatarForm;
+    useEffect(() => {
+        values.avatar = "";
+        editAvatarForm.setErrors({});
+    }, [isOpen]);
 
     return (
         <PopupWithForm
@@ -51,7 +55,7 @@ function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, isLoading }) {
                 }`}
                 type='submit'
                 disabled={thereIsErrors(editAvatarForm.errors) ? true : false}>
-                {isLoading ? "Saving..." : "Save"}
+                {submitText}
             </button>
         </PopupWithForm>
     );

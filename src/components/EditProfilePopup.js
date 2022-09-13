@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { REQUIRED, MIN_TWO, MAX_LENGTH } from "../lib/consts";
 import thereIsErrors from "../utils/formError";
 
-function EditProfilePopup({ isOpen, onClose, onUserUpdate, isLoading }) {
+function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
     const currentUser = useContext(CurrentUserContext);
 
     const editProfileForm = useFormik({
@@ -48,12 +48,13 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, isLoading }) {
                     placeholder='Full Name'
                     value={editProfileForm.values.name || ""}
                     onChange={editProfileForm.handleChange}
+                    onBlur={editProfileForm.handleBlur}
                 />
-                {editProfileForm.errors.name && (
+                {editProfileForm.errors.name && editProfileForm.touched.name ? (
                     <span className='popup__input-error popup__input_type_error'>
                         {editProfileForm.errors.name}
                     </span>
-                )}
+                ) : null}
             </label>
             <label className='popup__field'>
                 <input
@@ -63,12 +64,14 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, isLoading }) {
                     placeholder='Description'
                     value={editProfileForm.values.about || ""}
                     onChange={editProfileForm.handleChange}
+                    onBlur={editProfileForm.handleBlur}
                 />
-                {editProfileForm.errors.about && (
+                {editProfileForm.errors.about &&
+                editProfileForm.touched.about ? (
                     <span className='popup__input-error popup__input_type_error'>
                         {editProfileForm.errors.about}
                     </span>
-                )}
+                ) : null}
             </label>
             <button
                 className={`popup__submit ${
@@ -78,7 +81,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, isLoading }) {
                 }`}
                 type='submit'
                 disabled={thereIsErrors(editProfileForm.errors) ? true : false}>
-                {isLoading ? "Saving..." : "Save"}
+                {submitText}
             </button>
         </PopupWithForm>
     );

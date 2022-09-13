@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function RegisterPopup({ onClose, isOpen, text, image }) {
+function InfoToolTip({ onClose, isOpen, text, image }) {
     return (
         <PopupWithForm name='register' onClose={onClose} isOpen={isOpen}>
             <img
@@ -14,4 +14,4 @@ function RegisterPopup({ onClose, isOpen, text, image }) {
     );
 }
 
-export default RegisterPopup;
+export default InfoToolTip;

@@ -11,7 +11,7 @@ import {
 
 import thereIsErrors from "../utils/formError";
 
-function AddPlacePopup({ isOpen, onClose, onCardsUpdate, isLoading }) {
+function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
     const addCardForm = useFormik({
         initialValues: {
             name: "",
@@ -35,6 +35,7 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, isLoading }) {
     useEffect(() => {
         values.link = "";
         values.name = "";
+        addCardForm.setErrors({});
     }, [isOpen]);
 
     return (
@@ -87,7 +88,7 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, isLoading }) {
                 }`}
                 type='submit'
                 disabled={thereIsErrors(addCardForm.errors) ? true : false}>
-                {isLoading ? "Creating..." : "Create"}
+                {submitText}
             </button>
         </PopupWithForm>
     );
