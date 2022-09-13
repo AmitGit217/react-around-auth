@@ -41,7 +41,6 @@ function App() {
         name: "",
         link: "",
     });
-    const [submitText, setSubmitText] = useState("");
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [metaText, setMetaText] = useState("");
     const [redirection, setRedirection] = useState("");
