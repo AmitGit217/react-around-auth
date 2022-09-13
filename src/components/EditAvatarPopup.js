@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { REQUIRED, MUST_BE_VALID_URL } from "../lib/consts";
 import thereIsErrors from "../utils/formError";
 
-function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, submitText }) {
+function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, isLoading }) {
     const editAvatarForm = useFormik({
         initialValues: {
             avatar: "",
@@ -51,7 +51,7 @@ function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate, submitText }) {
                 }`}
                 type='submit'
                 disabled={thereIsErrors(editAvatarForm.errors) ? true : false}>
-                {submitText || "Save"}
+                {isLoading ? "Saving..." : "Save"}
             </button>
         </PopupWithForm>
     );

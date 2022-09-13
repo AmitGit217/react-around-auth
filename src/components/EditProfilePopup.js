@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { REQUIRED, MIN_TWO, MAX_LENGTH } from "../lib/consts";
 import thereIsErrors from "../utils/formError";
 
-function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
+function EditProfilePopup({ isOpen, onClose, onUserUpdate, isLoading }) {
     const currentUser = useContext(CurrentUserContext);
 
     const editProfileForm = useFormik({
@@ -78,7 +78,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                 }`}
                 type='submit'
                 disabled={thereIsErrors(editProfileForm.errors) ? true : false}>
-                {submitText || "Save"}
+                {isLoading ? "Saving..." : "Save"}
             </button>
         </PopupWithForm>
     );

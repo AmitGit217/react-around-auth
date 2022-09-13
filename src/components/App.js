@@ -51,6 +51,7 @@ function App() {
     const [userEmail, setEmail] = useState("");
     const [registerImage, setImage] = useState("");
     const [registerText, setText] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
     function closeAllPopups() {
         setEditAvatarPopupOpen(false);
@@ -83,24 +84,24 @@ function App() {
     }, []);
 
     function handleUserUpdate({ name, about }) {
-        setSubmitText("Saving...");
+        setLoading(true);
         api.setUserInfo({ name, about })
             .then((res) => {
                 setCurrentUser(res);
                 closeAllPopups();
             })
             .catch((err) => console.log(err))
-            .finally(() => setSubmitText(""));
+            .finally(() => setLoading(false));
     }
     function handleAvatarUpdate({ avatar }) {
-        setSubmitText("Saving...");
+        setLoading(true);
         api.updateAvatarImage({ avatar })
             .then((res) => {
                 setCurrentUser(res);
                 closeAllPopups();
             })
             .catch((err) => console.log(err))
-            .finally(() => setSubmitText(""));
+            .finally(() => setLoading(false));
     }
     useEffect(() => {
         api.getInitialCards()
@@ -127,7 +128,7 @@ function App() {
         setCardToRemove(card);
     }
     function handleSubmitRemove(card) {
-        setSubmitText("Deleting...");
+        setLoading(true);
         api.deleteCard(card._id)
             .then((res) => {
                 setCards((cards) =>
@@ -137,18 +138,18 @@ function App() {
             })
 
             .catch((err) => console.log(err))
-            .finally(() => setSubmitText(""));
+            .finally(() => setLoading(false));
     }
 
     function handleCardsUpdate({ name, link }) {
-        setSubmitText("Creating...");
+        setLoading(true);
         api.addCard({ name, link })
             .then((res) => {
                 setCards([res, ...cards]);
                 closeAllPopups();
             })
             .catch((err) => console.log(err))
-            .finally(() => setSubmitText(""));
+            .finally(() => setLoading(false));
     }
 
     function handleRegister(email, password) {
@@ -246,34 +247,34 @@ function App() {
                         card={selectedCard}
                         onClose={closeAllPopups}
                         isOpen={isImagePopupOpen}
-                        submitText={submitText}
+                        isLoading={isLoading}
                     />
                     <RemoveCardPopup
                         onClose={closeAllPopups}
                         onSubmitHandler={handleSubmitRemove}
                         isOpen={isRemovePopupOpen}
-                        submitText={submitText}
+                        isLoading={isLoading}
                     />
 
                     <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
                         onAvatarUpdate={handleAvatarUpdate}
-                        submitText={submitText}
+                        isLoading={isLoading}
                     />
 
                     <EditProfilePopup
                         isOpen={isEditProfilePopupOpen}
                         onClose={closeAllPopups}
                         onUserUpdate={handleUserUpdate}
-                        submitText={submitText}
+                        isLoading={isLoading}
                     />
 
                     <AddPlacePopup
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
                         onCardsUpdate={handleCardsUpdate}
-                        submitText={submitText}
+                        isLoading={isLoading}
                     />
 
                     <Header
